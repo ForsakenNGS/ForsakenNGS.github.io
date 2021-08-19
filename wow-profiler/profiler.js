@@ -65,7 +65,8 @@ class Report {
     this.data = await WarcraftLogs_Fetch(`report/fights/${this.id}`);
     this.fights = {};
     for (let fightData of this.data.fights) {
-      this.fights[fightData.id] = new Fight(fightData.id, );
+      this.fights[fightData.id] = new Fight(fightData.id, this);
+      await this.fights[fightData.id].fetch();
     }
   }
 
@@ -82,6 +83,7 @@ jQuery("#reportForm").on("submit", function(event) {
   // Obtain report from warcraftlogs
   let report = new Report(logId);
   report.fetch().then(() => {
+    console.log(report);
     debugger;
   });
 });
