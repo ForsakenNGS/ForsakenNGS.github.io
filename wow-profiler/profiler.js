@@ -2,8 +2,15 @@
 
 let apikey = '234218deb60cfa4cc4844d91faf868f2';
 
-async function WarcraftLogs_Fetch(path) {
-    let response = await fetch(`https://classic.warcraftlogs.com:443/v1/${path}&api_key=${apikey}`);
+async function WarcraftLogs_Fetch(path, parameters) {
+    let strParams = [ `api_key=${apikey}` ];
+    if (typeof parameters != "undefined") {
+      for (let name in parameters) {
+        strParams.push(name+"="+encodeURI(parameters[name]));
+      }
+    }
+    strParams = strParams.join("&");
+    let response = await fetch(`https://classic.warcraftlogs.com:443/v1/${path}?${strParams}`);
     if (!response) {
       throw "Failed to fetch: "+path;
     }
@@ -11,6 +18,38 @@ async function WarcraftLogs_Fetch(path) {
       throw "Failed to fetch: "+path+" (Status: "+response.status+")";
     }
     return await response.json();
+}
+
+
+class Fight {
+
+  constructor(fight, report, globalUnits, faction) {
+    this.id = fight.id;
+    this.name = fight.name;
+    this.start = fight.start_time;
+    this.end = fight.end_time;
+    this.encounter = fight.boss;
+    this.report = report;
+  }
+
+  async fetch() {
+    if ("data" in this) {
+      return; // Already loaded
+    }
+    if (not "combatantInfo" in this) {
+      this.combatantInfo = await WarcraftLogs_Fetch(`report/event/${this.report.id}`, {
+        start: this.start, end: this.end, filter: `type IN ("combatantinfo")`
+      });
+    }
+    if (not "events" in this) {
+      this.events = await WarcraftLogs_Fetch(`report/event/${this.report.id}`, {
+        start: this.start, end: this.end,
+        filter: `type IN ("death","cast","begincast","damage","heal","healing","miss","applybuff","applybuffstack","refreshbuff","applydebuff","applydebuffstack","refreshdebuff","energize","absorbed","healabsorbed","leech","drain", "removebuff")`
+      });
+    }
+    debugger;
+  }
+
 }
 
 class Report {
@@ -23,7 +62,11 @@ class Report {
     if ("data" in this) {
       return; // Already loaded
     }
-    this.data = await WarcraftLogs_Fetch(`report/fights/${this.id}?`);
+    this.data = await WarcraftLogs_Fetch(`report/fights/${this.id}`);
+    this.fights = {};
+    for (let fightData of this.data.fights) {
+      this.fights[fightData.id] = new Fight(fightData.id, );
+    }
   }
 
 }
