@@ -28,7 +28,8 @@ class Report {
 
 }
 
-jQuery("#reportForm").on("submit", function() {
+jQuery("#reportForm").on("submit", function(event) {
+  event.preventDefault();
   let logId = jQuery("#reportId").val();
   let urlmatch = logId.match(/https:\/\/(?:[a-z]+\.)?(?:classic\.|www\.)?warcraftlogs\.com\/reports\/((?:a:)?\w+)/);
   if (urlmatch) {
@@ -38,6 +39,6 @@ jQuery("#reportForm").on("submit", function() {
   // Obtain report from warcraftlogs
   let report = new Report(logId);
   report.fetch().then(() => {
-    debugger;    
+    debugger;
   });
 });
