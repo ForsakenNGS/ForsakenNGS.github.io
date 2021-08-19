@@ -23,7 +23,7 @@ async function WarcraftLogs_Fetch(path, parameters) {
 
 class Fight {
 
-  constructor(fight, report, globalUnits, faction) {
+  constructor(fight, report) {
     this.id = fight.id;
     this.name = fight.name;
     this.start = fight.start_time;
@@ -65,7 +65,7 @@ class Report {
     this.data = await WarcraftLogs_Fetch(`report/fights/${this.id}`);
     this.fights = {};
     for (let fightData of this.data.fights) {
-      this.fights[fightData.id] = new Fight(fightData.id, this);
+      this.fights[fightData.id] = new Fight(fightData, this);
       await this.fights[fightData.id].fetch();
     }
   }
