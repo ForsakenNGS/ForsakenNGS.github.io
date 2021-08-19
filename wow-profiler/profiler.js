@@ -37,12 +37,13 @@ class Fight {
       return; // Already loaded
     }
     if (!("combatantInfo" in this)) {
-      this.combatantInfo = await WarcraftLogs_Fetch(`report/event/${this.report.id}`, {
-        start: this.start, end: this.end, filter: `type IN ("combatantinfo")`
+      this.combatantInfo = await WarcraftLogs_Fetch(`report/events/${this.report.id}`, {
+        start: this.start, end: this.end,
+        filter: `type IN ("combatantinfo")`
       });
     }
     if (!("events" in this)) {
-      this.events = await WarcraftLogs_Fetch(`report/event/${this.report.id}`, {
+      this.events = await WarcraftLogs_Fetch(`report/events/${this.report.id}`, {
         start: this.start, end: this.end,
         filter: `type IN ("death","cast","begincast","damage","heal","healing","miss","applybuff","applybuffstack","refreshbuff","applydebuff","applydebuffstack","refreshdebuff","energize","absorbed","healabsorbed","leech","drain", "removebuff")`
       });
