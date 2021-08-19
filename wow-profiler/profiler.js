@@ -23,7 +23,7 @@ class Report {
     if ("data" in this) {
       return; // Already loaded
     }
-    this.data = await WarcraftLogs_Fetch(`report/fights/${this.reportId}?`);
+    this.data = await WarcraftLogs_Fetch(`report/fights/${this.id}?`);
   }
 
 }
