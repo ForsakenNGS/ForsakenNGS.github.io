@@ -143,7 +143,7 @@ jQuery("#fightForm").on("submit", function(event) {
   }
   fight = reportActive.fights[fightId];
   if ((character !== null) && (fight !== null)) {
-    fight.fetchEvents();
+    await fight.fetchEvents();
     debugger;
   }
 });
