@@ -145,5 +145,8 @@ jQuery("#fightForm").on("submit", function(event) {
       fight = fightData;
     }
   }
-  debugger;
+  if ((character !== null) && (fight !== null)) {
+    fight.fetchEvents();
+    debugger;
+  }
 });
