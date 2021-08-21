@@ -35,6 +35,7 @@ async function WarcraftLogs_FetchByTime(path, parameters, field) {
     if (!json[field]) {
       throw "Expected field '"+field+"' not found in "+path;
     }
+    // Add field contents to result
     result.push(...json[field]);
     parameters.start = Math.min(json.nextPageTimestamp, parameters.end);
   }
