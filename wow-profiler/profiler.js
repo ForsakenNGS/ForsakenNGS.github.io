@@ -112,11 +112,11 @@ jQuery("#reportForm").on("submit", function(event) {
   let report = new Report(logId);
   report.fetch().then(() => {
     reportActive = report;
-    jQuery("#characterId").html("").each(function() {
+    jQuery("#sourceId").html("").each(function() {
       for (let friendlyData of report.data.friendlies) {
         if (friendlyData.type != "NPC") {
           jQuery(this).append(
-            jQuery("<option></option>").val(friendlyData.id).text(characterData.name)
+            jQuery("<option></option>").val(friendlyData.id).text(friendlyData.name)
           );
         }
       }
@@ -134,7 +134,7 @@ jQuery("#reportForm").on("submit", function(event) {
 
 jQuery("#fightForm").on("submit", function(event) {
   event.preventDefault();
-  let sourceId = jQuery("#characterId").val();
+  let sourceId = jQuery("#sourceId").val();
   let fightId = jQuery("#fightId").val();
   let fight = reportActive.fights[fightId];
   if (fight !== null) {
