@@ -1,23 +1,44 @@
 "use strict";
 
+const requestThrottle = 250;
+let requestNext = 0;
 let apikey = '234218deb60cfa4cc4844d91faf868f2';
 
 async function WarcraftLogs_Fetch(path, parameters) {
-    let strParams = [ `api_key=${apikey}` ];
-    if (typeof parameters != "undefined") {
-      for (let name in parameters) {
-        strParams.push(name+"="+encodeURI(parameters[name]));
-      }
+  let now = (new Date).getTime();
+  requestNext = Math.max(requestNext, now);
+  if (requestNext > now) {
+    await sleep(requestNext - now);
+  }
+  requestNext = now + requestThrottle;
+  let strParams = [ `api_key=${apikey}` ];
+  if (typeof parameters != "undefined") {
+    for (let name in parameters) {
+      strParams.push(name+"="+encodeURI(parameters[name]));
     }
-    strParams = strParams.join("&");
-    let response = await fetch(`https://classic.warcraftlogs.com:443/v1/${path}?${strParams}`);
-    if (!response) {
-      throw "Failed to fetch: "+path;
+  }
+  strParams = strParams.join("&");
+  let response = await fetch(`https://classic.warcraftlogs.com:443/v1/${path}?${strParams}`);
+  if (!response) {
+    throw "Failed to fetch: "+path;
+  }
+  if (response.status != 200) {
+    throw "Failed to fetch: "+path+" (Status: "+response.status+")";
+  }
+  return await response.json();
+}
+
+async function WarcraftLogs_FetchByTime(path, parameters, field) {
+  let result = [];
+  while (typeof parameters.start == "number") {
+    let json = WarcraftLogs_Fetch(path, parameters);
+    if (!json[field]) {
+      throw "Expected field '"+field+"' not found in "+path;
     }
-    if (response.status != 200) {
-      throw "Failed to fetch: "+path+" (Status: "+response.status+")";
-    }
-    return await response.json();
+    result.push(...json[field]);
+    parameters.start = Math.min(json.nextPageTimestamp, parameters.end);
+  }
+  return result;
 }
 
 
@@ -37,16 +58,16 @@ class Fight {
       return; // Already loaded
     }
     if (!("combatantInfo" in this)) {
-      this.combatantInfo = await WarcraftLogs_Fetch(`report/events/${this.report.id}`, {
+      this.combatantInfo = await WarcraftLogs_FetchByTime(`report/events/${this.report.id}`, {
         start: this.start, end: this.end,
         filter: `type IN ("combatantinfo")`
-      });
+      }, 'events');
     }
     if (!("events" in this)) {
-      this.events = await WarcraftLogs_Fetch(`report/events/${this.report.id}`, {
+      this.events = await WarcraftLogs_FetchByTime(`report/events/${this.report.id}`, {
         start: this.start, end: this.end,
         filter: `type IN ("death","cast","begincast","damage","heal","healing","miss","applybuff","applybuffstack","refreshbuff","applydebuff","applydebuffstack","refreshdebuff","energize","absorbed","healabsorbed","leech","drain", "removebuff")`
-      });
+      }, 'events');
     }
     debugger;
   }
