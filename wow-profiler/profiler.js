@@ -115,7 +115,7 @@ jQuery("#reportForm").on("submit", function(event) {
     jQuery("#characterId").html("").each(function() {
       for (let characterData of report.data.exportedCharacters) {
         jQuery(this).append(
-          jQuery("<option></option>").val(characterData.id).text(characterData.name)
+          jQuery("<option></option>").val(characterData.sourceID).text(characterData.name)
         );
       }
     });
@@ -137,7 +137,7 @@ jQuery("#fightForm").on("submit", function(event) {
   let character = null;
   let fight = null;
   for (let characterData of reportActive.data.exportedCharacters) {
-    if (characterData.id == characterId) {
+    if (characterData.sourceID == characterId) {
       character = characterData;
     }
   }
