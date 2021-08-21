@@ -134,17 +134,10 @@ jQuery("#reportForm").on("submit", function(event) {
 
 jQuery("#fightForm").on("submit", function(event) {
   event.preventDefault();
-  let characterId = jQuery("#characterId").val();
+  let sourceId = jQuery("#characterId").val();
   let fightId = jQuery("#fightId").val();
-  let character = null;
-  let fight = null;
-  for (let characterData of reportActive.data.exportedCharacters) {
-    if (characterData.sourceID == characterId) {
-      character = characterData;
-    }
-  }
-  fight = reportActive.fights[fightId];
-  if ((character !== null) && (fight !== null)) {
+  let fight = reportActive.fights[fightId];
+  if (fight !== null) {
     fight.fetchEvents().then(() => {
       console.log(fight);
       debugger;
