@@ -3,6 +3,7 @@
 const requestThrottle = 250;
 let requestNext = 0;
 let apikey = '234218deb60cfa4cc4844d91faf868f2';
+let reportActive = null;
 
 function sleep(ms) {
     return new Promise(f => setTimeout(f, ms));
@@ -68,13 +69,14 @@ class Fight {
         filter: `type IN ("combatantinfo")`
       }, 'events');
     }
-    if (!("events" in this)) {
-      this.events = await WarcraftLogs_FetchByTime(`report/events/${this.report.id}`, {
-        start: this.start, end: this.end,
-        filter: `type IN ("death","cast","begincast","damage","heal","healing","miss","applybuff","applybuffstack","refreshbuff","applydebuff","applydebuffstack","refreshdebuff","energize","absorbed","healabsorbed","leech","drain", "removebuff")`
-      }, 'events');
-    }
     debugger;
+  }
+
+  async fetchEvents() {
+    this.events = await WarcraftLogs_FetchByTime(`report/events/${this.report.id}`, {
+      start: this.start, end: this.end,
+      filter: `type IN ("death","cast","begincast","damage","heal","healing","miss","applybuff","applybuffstack","refreshbuff","applydebuff","applydebuffstack","refreshdebuff","energize","absorbed","healabsorbed","leech","drain", "removebuff")`
+    }, 'events');
   }
 
 }
@@ -110,7 +112,19 @@ jQuery("#reportForm").on("submit", function(event) {
   // Obtain report from warcraftlogs
   let report = new Report(logId);
   report.fetch().then(() => {
-    console.log(report);
-    debugger;
+    reportActive = report;
+    jQuery("#combatantId").html("").each(function() {
+      for (let combatantData of this.data.combatantInfo) {
+        jQuery(this).append( jQuery("<option></option>").attr("id", combatantData.id).text("Test") )
+      }
+      debugger;
+    });
+    jQuery("#fightId").html("").each(function() {
+      for (let fightData of this.data.fights) {
+        jQuery(this).append( jQuery("<option></option>").attr("id", fightData.id).text("Test") )
+      }
+      debugger;
+    });
+    jQuery("#fightContainer").show();
   });
 });

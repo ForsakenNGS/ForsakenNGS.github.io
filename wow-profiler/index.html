@@ -17,12 +17,37 @@
       </div>
     </nav>
 
-    <div class="container mt-3">
+    <div id="reportContainer" class="container mt-3">
       <div class="bg-dark text-light p-3">
         <form id="reportForm" action="index.html" method="post">
           <div class="mb-3">
             <label class="form-label" for="reportId">Report ID</label>
-            <input class="form-control" type="text" id="reportId" name="reportId" value="">
+            <div class="btn-group">
+              <input class="form-control" type="text" id="reportId" name="reportId" value="">
+              <button class="btn btn-primary" type="submit" name="button">Scan</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="fightContainer" class="container mt-3" style="display: none;">
+      <div class="bg-dark text-light p-3">
+        <form id="fightForm" action="index.html" method="post">
+          <div class="mb-3">
+            <div class="row">
+              <div class="col-md-3">
+                <select class="form-control" id="combatantId" name="combatantId">
+                </select>
+              </div>
+              <div class="col-md-6">
+                <select class="form-control" id="fightId" name="fightId">
+                </select>
+              </div>
+              <div class="col-md-3">
+                <button class="btn btn-primary" type="submit" name="button">Select</button>
+              </div>
+            </div>
           </div>
         </form>
       </div>
