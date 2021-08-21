@@ -116,13 +116,11 @@ jQuery("#reportForm").on("submit", function(event) {
       for (let characterData of report.data.exportedCharacters) {
         jQuery(this).append( jQuery("<option></option>").attr("id", characterData.id).text(characterData.name) )
       }
-      debugger;
     });
     jQuery("#fightId").html("").each(function() {
       for (let fightData of report.data.fights) {
         jQuery(this).append( jQuery("<option></option>").attr("id", fightData.id).text("#"+combatantData.id+" "+combatantData.name) )
       }
-      debugger;
     });
     jQuery("#fightContainer").show();
   });
