@@ -113,13 +113,13 @@ jQuery("#reportForm").on("submit", function(event) {
   report.fetch().then(() => {
     reportActive = report;
     jQuery("#combatantId").html("").each(function() {
-      for (let combatantData of this.data.combatantInfo) {
+      for (let combatantData of report.data.combatantInfo) {
         jQuery(this).append( jQuery("<option></option>").attr("id", combatantData.id).text("Test") )
       }
       debugger;
     });
     jQuery("#fightId").html("").each(function() {
-      for (let fightData of this.data.fights) {
+      for (let fightData of report.data.fights) {
         jQuery(this).append( jQuery("<option></option>").attr("id", fightData.id).text("Test") )
       }
       debugger;
