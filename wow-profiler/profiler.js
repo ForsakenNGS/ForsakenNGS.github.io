@@ -113,10 +113,12 @@ jQuery("#reportForm").on("submit", function(event) {
   report.fetch().then(() => {
     reportActive = report;
     jQuery("#characterId").html("").each(function() {
-      for (let characterData of report.data.exportedCharacters) {
-        jQuery(this).append(
-          jQuery("<option></option>").val(characterData.sourceID).text(characterData.name)
-        );
+      for (let friendlyData of report.data.friendlies) {
+        if (friendlyData.type != "NPC") {
+          jQuery(this).append(
+            jQuery("<option></option>").val(friendlyData.id).text(characterData.name)
+          );
+        }
       }
     });
     jQuery("#fightId").html("").each(function() {
