@@ -141,11 +141,7 @@ jQuery("#fightForm").on("submit", function(event) {
       character = characterData;
     }
   }
-  for (let fightData of reportActive.data.fights) {
-    if (fightData.id == fightId) {
-      fight = fightData;
-    }
-  }
+  fight = reportActive.fights[fightId];
   if ((character !== null) && (fight !== null)) {
     fight.fetchEvents();
     debugger;
