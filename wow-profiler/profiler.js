@@ -4,6 +4,10 @@ const requestThrottle = 250;
 let requestNext = 0;
 let apikey = '234218deb60cfa4cc4844d91faf868f2';
 
+function sleep(ms) {
+    return new Promise(f => setTimeout(f, ms));
+}
+
 async function WarcraftLogs_Fetch(path, parameters) {
   let now = (new Date).getTime();
   requestNext = Math.max(requestNext, now);
