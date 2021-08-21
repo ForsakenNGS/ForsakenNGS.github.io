@@ -69,7 +69,6 @@ class Fight {
         filter: `type IN ("combatantinfo")`
       }, 'events');
     }
-    debugger;
   }
 
   async fetchEvents() {

@@ -21,10 +21,14 @@
       <div class="bg-dark text-light p-3">
         <form id="reportForm" action="index.html" method="post">
           <div class="mb-3">
-            <label class="form-label" for="reportId">Report ID</label>
-            <div class="btn-group">
-              <input class="form-control" type="text" id="reportId" name="reportId" value="">
-              <button class="btn btn-primary" type="submit" name="button">Scan</button>
+            <div class="row">
+              <label class="form-label col-md-2" for="reportId">Report ID</label>
+              <div class="col-md-8">
+                <input class="form-control" type="text" id="reportId" name="reportId" value="">
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-primary" type="submit" name="button">Scan</button>
+              </div>
             </div>
           </div>
         </form>
@@ -36,15 +40,17 @@
         <form id="fightForm" action="index.html" method="post">
           <div class="mb-3">
             <div class="row">
+              <label class="form-label col-md-2" for="reportId">Report ID</label>
               <div class="col-md-3">
                 <select class="form-control" id="combatantId" name="combatantId">
                 </select>
               </div>
-              <div class="col-md-6">
+              <label class="form-label col-md-2" for="reportId">Report ID</label>
+              <div class="col-md-3">
                 <select class="form-control" id="fightId" name="fightId">
                 </select>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <button class="btn btn-primary" type="submit" name="button">Select</button>
               </div>
             </div>
