@@ -141,7 +141,7 @@ jQuery("#fightForm").on("submit", function(event) {
     }
   }
   for (let fightData of reportActive.data.fights) {
-    if (fightData.id == characterId) {
+    if (fightData.id == fightId) {
       fight = fightData;
     }
   }
