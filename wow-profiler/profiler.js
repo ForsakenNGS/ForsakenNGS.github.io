@@ -131,6 +131,7 @@ jQuery("#reportForm").on("submit", function(event) {
 });
 
 jQuery("#fightForm").on("submit", function(event) {
+  event.preventDefault();
   let characterId = jQuery("#characterId").val();
   let fightId = jQuery("#fightId").val();
   let character = null;
