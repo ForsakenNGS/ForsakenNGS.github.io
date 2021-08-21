@@ -113,8 +113,8 @@ jQuery("#reportForm").on("submit", function(event) {
   report.fetch().then(() => {
     reportActive = report;
     jQuery("#combatantId").html("").each(function() {
-      for (let combatantData of report.data.exportedCharacters) {
-        jQuery(this).append( jQuery("<option></option>").attr("id", combatantData.id).text(combatantData.name) )
+      for (let characterData of report.data.exportedCharacters) {
+        jQuery(this).append( jQuery("<option></option>").attr("id", characterData.id).text(characterData.name) )
       }
       debugger;
     });
@@ -126,4 +126,22 @@ jQuery("#reportForm").on("submit", function(event) {
     });
     jQuery("#fightContainer").show();
   });
+});
+
+jQuery("#fightForm").on("submit", function(event) {
+  let characterId = jQuery("#characterId").val();
+  let fightId = jQuery("#fightId").val();
+  let character = null;
+  let fight = null;
+  for (let characterData of reportActive.data.exportedCharacters) {
+    if (characterData.id == characterId) {
+      character = characterData;
+    }
+  }
+  for (let fightData of reportActive.data.fights) {
+    if (fightData.id == characterId) {
+      fight = fightData;
+    }
+  }
+  debugger;
 });
