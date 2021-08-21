@@ -113,7 +113,7 @@ jQuery("#reportForm").on("submit", function(event) {
   report.fetch().then(() => {
     reportActive = report;
     jQuery("#combatantId").html("").each(function() {
-      for (let combatantData of report.data.combatantInfo) {
+      for (let combatantData of report.data.exportedCharacters) {
         jQuery(this).append( jQuery("<option></option>").attr("id", combatantData.id).text("Test") )
       }
       debugger;
