@@ -41,7 +41,7 @@ async function WarcraftLogs_FetchByTime(path, parameters, field) {
     }
     // Add field contents to result
     result.push(...json[field]);
-    parameters.start = Math.min(json.nextPageTimestamp, parameters.end);
+    parameters.start = json.nextPageTimestamp;
   }
   return result;
 }
